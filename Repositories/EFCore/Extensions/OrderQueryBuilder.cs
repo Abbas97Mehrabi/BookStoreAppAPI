@@ -22,7 +22,7 @@ namespace Repositories.EFCore.Extensions
             {
                 if (string.IsNullOrWhiteSpace(param)) { continue; }
 
-                var propertyFromQueryName = param.Split(" ")[0];
+                var propertyFromQueryName = param.Split(' ')[0];
 
                 var objectProperty = propertyInfos.FirstOrDefault(pi =>
                 pi.Name.Equals(propertyFromQueryName, StringComparison.OrdinalIgnoreCase));
