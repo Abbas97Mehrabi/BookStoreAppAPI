@@ -69,7 +69,7 @@ namespace Services
             var mediaType = (MediaTypeHeaderValue)httpContext.Items["AcceptHeaderMediaType"];
             return mediaType
                 .SubTypeWithoutSuffix
-                .EndsWith("hateoas", StringComparison.OrdinalIgnoreCase);
+                .EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private List<Entity> ShapeData(IEnumerable<BookDto> booksDto, string fields)

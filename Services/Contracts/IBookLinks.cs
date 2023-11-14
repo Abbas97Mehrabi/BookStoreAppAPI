@@ -12,6 +12,6 @@ namespace Services.Contracts
     public interface IBookLinks
     {
         LinkResponse TryGenerateLinks(IEnumerable<BookDto> booksDto,
-            string fields, HttpContext HttpContext);
+            string fields, HttpContext httpContext);
     }
 }
