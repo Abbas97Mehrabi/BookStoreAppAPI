@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
+using Microsoft.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace Presentetion.ActionFilters
 {
     public class ValidateMediaTypeAttribute : ActionFilterAttribute
     {
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             var acceptHeaderPresent = context.HttpContext
                 .Request
@@ -29,7 +29,7 @@ namespace Presentetion.ActionFilters
                 .Headers["Accept"]
                 .FirstOrDefault();
 
-            if(MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType))
+            if(!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue? outMediaType))
             {
                 context.Result = new BadRequestObjectResult($"Media Type not present." +
                     $"Please add Accept header with required media type.");
