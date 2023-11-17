@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NLog;
-using Presentetion.ActionFilters;
-using Repositories.EFCore;
 using Services;
 using Services.Contracts;
 using WebAPI.Extensions;
@@ -42,6 +39,7 @@ builder.Services.ConfigureCors();
 builder.Services.ConfigureDataShaper();
 builder.Services.AddCustomMediaTypes();
 builder.Services.AddScoped<IBookLinks, BookLinks>();
+builder.Services.ConfigureVersioning();
 
 var app = builder.Build();
 
