@@ -11,9 +11,11 @@ namespace Repositories.Contracts
     public interface IBookRepository : IRepositoryBase<Book>
     {
         Task<PagedList<Book>> GetAllBooksAsync(BookParameters bookParameters, bool treckChanges);
+        Task<List<Book>> GetAllBooksAsync(bool trackChanges);
         Task<Book> GetOneBookByIdAsync(int id ,bool treckChanges);
         void CreateOneBook (Book book);
         void UpdateOneBook(Book book);
         void DeleteOneBook(Book book);
+        
     }
 }

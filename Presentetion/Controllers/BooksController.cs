@@ -15,11 +15,12 @@ using System.Threading.Tasks;
 
 namespace Presentetion.Controllers
 {
+    //[ApiVersion("1.0")]
     [ServiceFilter(typeof(LogFilterAttribute))]
     [ApiController]
-    [Route("api/Books")]
-    
-        public class BooksController : ControllerBase
+    [Route("api/books")]
+
+    public class BooksController : ControllerBase
         {
 
             private readonly IServiceManager _manager;
