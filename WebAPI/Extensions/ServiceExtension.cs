@@ -9,6 +9,7 @@ using Repositories.Contracts;
 using Repositories.EFCore;
 using Services;
 using Services.Contracts;
+using Marvin.Cache.Headers;
 
 namespace WebAPI.Extensions
 {
@@ -97,6 +98,25 @@ namespace WebAPI.Extensions
                 opt.Conventions.Controller<BooksV2Controller>()
                 .HasDeprecatedApiVersion(new ApiVersion(2, 0)); 
             });
+        }
+        
+        public static void ConfigureResponseCaching(this IServiceCollection services)
+        {
+            services.AddResponseCaching();
+        }
+
+        public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
+        {
+            services.AddHttpCacheHeaders(expirasionOpt =>
+            {
+                expirasionOpt.MaxAge = 90;
+                expirasionOpt.CacheLocation = CacheLocation.Public;
+            },
+            validationOpt =>
+            {
+                validationOpt.MustRevalidate = false;
+            }
+            );
         }
     }
 }
