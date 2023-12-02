@@ -55,6 +55,8 @@ namespace Presentetion.Controllers
                 Ok(result.linkResponse.LinkedEntities) :
                 Ok(result.linkResponse.ShapedEntities);
             }
+
+            [Authorize]
             [HttpGet("{id:int}")]
             public async Task<IActionResult> GetOneBookAsync([FromRoute(Name = "id")] int id)
             {
@@ -64,6 +66,8 @@ namespace Presentetion.Controllers
                     
                     return Ok(book);
             }
+
+            [Authorize(Roles = ("Admin, Editor"))]
             [ServiceFilter(typeof(ValidationFilterAttribute))]
             [HttpPost(Name = "CreateOneBookAsync")]//create
             public async Task<IActionResult> CreateOneBookAsync([FromBody] BookDtoForInsertion bookDto)
@@ -71,6 +75,8 @@ namespace Presentetion.Controllers
                  var book = await _manager.BookService.CreateOneBookAsync(bookDto);
                  return StatusCode(201, book);//CreateAtRoute()
             }
+
+            [Authorize(Roles = ("Admin, Editor"))]
             [ServiceFilter(typeof(ValidationFilterAttribute))]
             [HttpPut("{id:int}")]
             public async Task<IActionResult> UpdateOneBookAsync([FromRoute(Name = "id")] int id,
@@ -79,6 +85,8 @@ namespace Presentetion.Controllers
             await _manager.BookService.UpdateOneBookAsync(id, bookDto, false);
                     return NoContent();//204
             }
+
+            [Authorize(Roles = ("Admin, Editor"))]
             [HttpDelete("{id:int}")]
             public async Task<IActionResult> DeleteOneBookAsync([FromRoute(Name = "id")] int id)
             {
@@ -86,6 +94,7 @@ namespace Presentetion.Controllers
                     return NoContent();
             }
 
+            [Authorize(Roles = ("Admin, Editor"))]
             [HttpPatch("{id:int}")]
             public async Task<IActionResult> PartiallyUpdateOneBookAsync([FromRoute(Name = "id")] int id,
                 [FromBody] JsonPatchDocument<BookDtoForUpdate> bookPatch)
@@ -106,7 +115,7 @@ namespace Presentetion.Controllers
                    await _manager.BookService.SaveChangesForPatchAsync(result.bookDtoForUpdate, result.book);
                     return NoContent(); //204
             }
-
+            [Authorize]
             [HttpOptions]
             public IActionResult GetBooksOptions()
             {
