@@ -132,7 +132,7 @@ namespace WebAPI.Extensions
              new RateLimitRule()
              {
                  Endpoint = "*",
-                 Limit = 3,
+                 Limit = 60,
                  Period = "1m"
              }
             };
@@ -179,8 +179,8 @@ namespace WebAPI.Extensions
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = jwtSetting["bsstoreapi"],
-                ValidAudience = jwtSetting["http://localhost:3000"],
+                ValidIssuer = jwtSetting["validIssuer"],
+                ValidAudience = jwtSetting["validAudience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
             });
         }
