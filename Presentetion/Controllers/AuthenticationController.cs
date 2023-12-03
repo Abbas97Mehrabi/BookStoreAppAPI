@@ -40,16 +40,27 @@ namespace Presentetion.Controllers
         }
         [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Athenticate([FromBody]UserForAuthenticationDto user)
+        public async Task<IActionResult> Athenticate([FromBody] UserForAuthenticationDto user)
         {
-            if(!await _service.AuthenticationService.ValidateUser(user))
+            if (!await _service.AuthenticationService.ValidateUser(user))
             {
                 return Unauthorized();
             }
-            return Ok(new
-            {
-                Token = await _service.AuthenticationService.CreateToken()
-            });
+            var tokenDto = await _service
+                .AuthenticationService
+                .CreateToken(populateExp: true);
+
+            return Ok(tokenDto);
+        }
+
+        [HttpPost("refresh")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
+        {
+            var tokenDtoToReturn = await _service
+                .AuthenticationService
+                .RefreshToken(tokenDto);
+            return Ok(tokenDtoToReturn);
         }
     }
 }
