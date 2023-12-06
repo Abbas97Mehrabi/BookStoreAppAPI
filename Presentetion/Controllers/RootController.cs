@@ -12,6 +12,7 @@ namespace Presentetion.Controllers
 {
     [ApiController]
     [Route("api")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class RootController : ControllerBase
     {
         private readonly LinkGenerator _linkGenerator;
@@ -25,7 +26,7 @@ namespace Presentetion.Controllers
         {
             if (mediaType.Contains("application/vnd.btkakademi.apiroot"))
             {
-                var list = new List<Link>() 
+                var list =  new List<Link>() 
                 {
                     new Link()
                     {
@@ -48,7 +49,7 @@ namespace Presentetion.Controllers
                     }
                 };
                 
-                return Ok(list);
+                return  Ok(list);
             }
             return NoContent(); //204
         }

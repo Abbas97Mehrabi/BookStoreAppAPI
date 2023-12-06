@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace WebAPI.Extensions
 {
@@ -182,6 +183,53 @@ namespace WebAPI.Extensions
                 ValidIssuer = jwtSetting["validIssuer"],
                 ValidAudience = jwtSetting["validAudience"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            });
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1",
+                    new OpenApiInfo 
+                    {
+                        Title = "BTK Akademi",
+                        Version = "v1",
+                        Description = "BTK Akademi ASP.NET Core Web API",
+                        TermsOfService = new Uri("https://www.btkakademi.gov.tr/"),
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Abbas Mehrabi",
+                            Email = "abbasmehrabi95@gmail.com",
+                            Url = new Uri("https://github.com/AbbasMehrabi97/BookStoreAppAPI")
+                        }
+                    });
+                s.SwaggerDoc("v2", new OpenApiInfo { Title = "BTK Akademi", Version = "v2" });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with bearer",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Brarer"
+                });
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Name = "Bearer"
+                    },
+                    new List<string>()
+                    }
+                });
             });
         }
     }
