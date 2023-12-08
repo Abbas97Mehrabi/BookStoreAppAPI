@@ -62,6 +62,39 @@ namespace WebAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Entities.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "ComputerScience"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Network"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Database Management"
+                        });
+                });
+
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -168,22 +201,22 @@ namespace WebAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "546c0f9c-8352-4c85-9303-ba24fa28613b",
-                            ConcurrencyStamp = "88d78c84-88d0-4a6c-9ccc-3322fa9af392",
+                            Id = "5c589e4b-2fc3-4510-99c5-093247b7ad54",
+                            ConcurrencyStamp = "23871c38-c84c-46e4-8525-a5fd293907df",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "603037eb-bef3-4992-acec-728da2d23b4d",
-                            ConcurrencyStamp = "491f8dfe-7935-4779-a382-32d9d4b2cef1",
+                            Id = "69369535-e03c-4054-ae77-94768d63598c",
+                            ConcurrencyStamp = "ef9fbd48-affb-4054-a1a2-29cffe8a0cf8",
                             Name = "Editor",
                             NormalizedName = "EDITOR"
                         },
                         new
                         {
-                            Id = "39db3783-b8c8-40eb-8aa1-f54a8000169a",
-                            ConcurrencyStamp = "ffe024bc-ed10-4abd-ab07-5eaf94a8679f",
+                            Id = "7040b6d8-1ed1-4aa8-81eb-252073d3d0be",
+                            ConcurrencyStamp = "725c38c9-3042-4df5-866d-31e4a5aa1a97",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
