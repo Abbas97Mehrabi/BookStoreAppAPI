@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Entities.Exceptions.BookNotFoundException;
 
 namespace Services
 {
@@ -25,7 +26,12 @@ namespace Services
 
         public async Task<Category> GetOneCategoryByIdAsync(int id, bool trackChanges)
         {
-            return await _manager.Category.GetOneCategoryByIdAsync(id, trackChanges);
+            var category = await _manager.Category.GetOneCategoryByIdAsync(id, trackChanges);
+            if (category is null)
+            {
+                throw new CategoryNotFoundException(id);
+            }
+            return category;
         }
     }
 }

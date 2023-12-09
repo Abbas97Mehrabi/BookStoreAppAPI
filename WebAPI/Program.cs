@@ -18,8 +18,10 @@ builder.Services.AddControllers(config =>
 })
 .AddXmlDataContractSerializerFormatters()
 .AddCustomCsvFormatter()
-.AddApplicationPart(typeof(Presentetion.AssemblyReference).Assembly);
-//.AddNewtonsoftJson();
+.AddApplicationPart(typeof(Presentetion.AssemblyReference).Assembly)
+.AddNewtonsoftJson(opt =>
+opt.SerializerSettings.ReferenceLoopHandling = 
+Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
 
