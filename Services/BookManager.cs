@@ -12,26 +12,37 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Entities.Exceptions.BookNotFoundException;
 
 namespace Services
 {
     public class BookManager : IBookService
     {
+        private readonly ICategoryService _categoryService;
         private readonly IRepositoryManager _manager;
         private readonly ILoggerService _logger;
         private readonly IMapper _mapper;
         private readonly IBookLinks _booksLinks;
 
-        public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IBookLinks booksLink)
+        public BookManager(IRepositoryManager manager, ILoggerService logger, IMapper mapper, IBookLinks booksLink, ICategoryService categoryService)
         {
             _manager = manager;
             _logger = logger;
             _mapper = mapper;
             _booksLinks = booksLink;
+            _categoryService = categoryService;
         }
 
         public async Task<BookDto> CreateOneBookAsync(BookDtoForInsertion bookDto)
         {
+            var category = await _categoryService
+                .GetOneCategoryByIdAsync(bookDto.CategoryId, false);
+
+            if(category is null)
+            {
+                throw new CategoryNotFoundException(bookDto.CategoryId);
+            }
+
             var entity =  _mapper.Map<Book>(bookDto);
             _manager.Book.CreateOneBook(entity);
             await _manager.SaveAsync();
